@@ -113,6 +113,7 @@ tbody td{padding:11px 14px;vertical-align:middle}
 .cname{font-weight:600}
 .sc{display:flex;align-items:center;gap:8px}
 .sc-val{font-weight:700;width:30px;text-align:right;font-size:14px}
+.sc-av{width:20px;height:20px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .bar-w{width:60px;height:5px;background:var(--sur3);border-radius:3px;overflow:hidden;flex-shrink:0}
 .bar-f{height:100%;border-radius:3px;background:var(--pk);transition:width .3s}
 .bar-g{background:var(--gd)}
@@ -186,6 +187,8 @@ tbody td{padding:11px 14px;vertical-align:middle}
 .s-tiktok{background:#111;color:#fff;border:1px solid rgba(255,255,255,.1)}.s-tiktok:hover{background:#222}
 .s-ig{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}.s-ig:hover{opacity:.85}
 .s-discord{background:#5865f2;color:#fff;padding:11px 24px;font-size:15px;box-shadow:0 0 18px rgba(88,101,242,.5)}.s-discord:hover{background:#4752c4;box-shadow:0 0 26px rgba(88,101,242,.7)}.s-discord svg{width:20px;height:20px}
+.th-inner{display:inline-flex;align-items:center;gap:5px}
+.th-av{width:18px;height:18px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .host-socials{display:flex;gap:6px;justify-content:center;margin-top:8px}
 .hs-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;text-decoration:none;transition:all .18s}
 .hs-btn svg{width:13px;height:13px}
@@ -407,9 +410,9 @@ function buildGestamtRows(data){
     return `<tr>
       <td>${rankIcon(i)}</td>
       <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
-      <td><div class="sc"><span class="sc-val">${fmt(e.s)}</span>
+      <td><div class="sc"><img class="sc-av" src="${avatarUrl(SCHMILLEY.twitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.s)}</span>
         <div class="bar-w"><div class="bar-f" style="width:${pct(e.s,10)}%"></div></div></div></td>
-      <td><div class="sc"><span class="sc-val">${fmt(e.g)}</span>
+      <td><div class="sc"><img class="sc-av" src="${avatarUrl(e.guestTwitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.g)}</span>
         <div class="bar-w"><div class="bar-f bar-g" style="width:${pct(e.g,10)}%"></div></div></div></td>
       <td class="sum-cell">${fmt(e.sum)}</td>
       <td>${diffLabel}</td>
@@ -427,9 +430,9 @@ function buildEpRows(ep, sortKey){
     return `<tr>
     <td>${rankIcon(i)}</td>
     <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
-    <td><div class="sc"><span class="sc-val">${fmt(e.s)}</span>
+    <td><div class="sc"><img class="sc-av" src="${avatarUrl(SCHMILLEY.twitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.s)}</span>
       <div class="bar-w"><div class="bar-f" style="width:${pct(e.s,10)}%"></div></div></div></td>
-    <td><div class="sc"><span class="sc-val">${fmt(e.g)}</span>
+    <td><div class="sc"><img class="sc-av" src="${avatarUrl(ep.guest.twitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.g)}</span>
       <div class="bar-w"><div class="bar-f bar-g" style="width:${pct(e.g,10)}%"></div></div></div></td>
     <td class="sum-cell">${fmt(e.sum)}</td>
   </tr>`;
