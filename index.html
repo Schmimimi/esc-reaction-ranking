@@ -186,6 +186,12 @@ tbody td{padding:11px 14px;vertical-align:middle}
 .s-tiktok{background:#111;color:#fff;border:1px solid rgba(255,255,255,.1)}.s-tiktok:hover{background:#222}
 .s-ig{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}.s-ig:hover{opacity:.85}
 .s-discord{background:#5865f2;color:#fff;padding:11px 24px;font-size:15px;box-shadow:0 0 18px rgba(88,101,242,.5)}.s-discord:hover{background:#4752c4;box-shadow:0 0 26px rgba(88,101,242,.7)}.s-discord svg{width:20px;height:20px}
+.host-socials{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.hs-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;text-decoration:none;transition:all .18s}
+.hs-btn svg{width:13px;height:13px}
+.hs-tw{background:#9146ff;color:#fff}.hs-tw:hover{background:#7c30e8}
+.hs-tt{background:#111;color:#fff;border:1px solid rgba(255,255,255,.15)}.hs-tt:hover{background:#333}
+.hs-ig{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}.hs-ig:hover{opacity:.8}
 .footer{text-align:center;padding:20px;border-top:1px solid var(--bd)}
 .footer a{color:var(--tm);font-size:12px;text-decoration:none;transition:color .2s}.footer a:hover{color:var(--tx)}
 .ten-cname{font-size:11px;font-weight:700;line-height:1.2}
@@ -267,7 +273,7 @@ tbody td{padding:11px 14px;vertical-align:middle}
 <script>
 // ── DATA ────────────────────────────────────────────────────────────────
 const EPS = [
-  { id:1, yt:'dPlKV2zKQhQ', guest:{name:"Miro",    twitch:"m1r0_de",     sTotal:51.5, gTotal:50.5},
+  { id:1, yt:'dPlKV2zKQhQ', guest:{name:"Miro",    twitch:"m1r0_de",     tiktok:"m1r0.de",       ig:"m1r0_de",        sTotal:51.5, gTotal:50.5},
     entries:[
       {de:"Moldawien",    en:"Moldova",        s:10,  g:9,   t:0,    song:"Satoshi – Viva, Moldova!"},
       {de:"Griechenland", en:"Greece",         s:10,  g:9,   t:1160, song:"Akylas – Ferto"},
@@ -277,7 +283,7 @@ const EPS = [
       {de:"San Marino",   en:"San_Marino",     s:6,   g:6,   t:140,  song:"Senhit – Superstar"},
       {de:"Ukraine",      en:"Ukraine",        s:5.5, g:6,   t:770,  song:"Leleka – Ridnym"},
     ]},
-  { id:2, yt:'RWGgirxx2vQ', guest:{name:"Nicole",  twitch:"neneli_",     sTotal:50,   gTotal:57},
+  { id:2, yt:'RWGgirxx2vQ', guest:{name:"Nicole",  twitch:"neneli_",     tiktok:"nenelistreams",  ig:"nenelistreams",  sTotal:50,   gTotal:57},
     entries:[
       {de:"Dänemark",     en:"Denmark",        s:10,  g:9.5, t:1675, song:"Søren Torpegaard Lund – For vi går hjem"},
       {de:"UK",           en:"United_Kingdom", s:9.5, g:8.5, t:601,  song:"Look Mum No Computer – Eins, Zwei, Drei"},
@@ -287,7 +293,7 @@ const EPS = [
       {de:"Estland",      en:"Estonia",        s:7,   g:6.5, t:0,    song:"Vanilla Ninja – Too Epic To Be True"},
       {de:"Portugal",     en:"Portugal",       s:4,   g:5,   t:287,  song:"Bandidos do Cante – Rosa"},
     ]},
-  { id:3, yt:'OZXquFmaiu4', guest:{name:"Broken",  twitch:"broken__bird", sTotal:48,  gTotal:37.5},
+  { id:3, yt:'OZXquFmaiu4', guest:{name:"Broken",  twitch:"broken__bird", tiktok:"brokenbird_",    ig:"br0kenb1rd",     sTotal:48,  gTotal:37.5},
     entries:[
       {de:"Schweden",     en:"Sweden",         s:10,  g:8,   t:1397, song:"Felicia – My System"},
       {de:"Österreich",   en:"Austria",        s:10,  g:6,   t:1113, song:"Cosmo – Tanzschein"},
@@ -297,7 +303,7 @@ const EPS = [
       {de:"Polen",        en:"Poland",         s:4,   g:4,   t:555,  song:"Alicja – Pray"},
       {de:"Rumänien",     en:"Romania",        s:4,   g:2,   t:271,  song:"Alexandra Căpitănescu – Choke Me"},
     ]},
-  { id:4, yt:'9BcNRnH0nAU', guest:{name:"Nele",    twitch:"JustNele",    sTotal:48,   gTotal:37},
+  { id:4, yt:'9BcNRnH0nAU', guest:{name:"Nele",    twitch:"JustNele",    tiktok:"ju5tnele",       ig:"ju5tnele",       sTotal:48,   gTotal:37},
     entries:[
       {de:"Luxemburg",    en:"Luxembourg",     s:7,   g:7,   t:150,  song:"Eva Marija – Mother Nature"},
       {de:"Australien",   en:"Australia",      s:7,   g:7,   t:0,    song:"Delta Goodrem – Eclipse"},
@@ -532,6 +538,11 @@ function renderEpisode(id){
           <div class="host-name">${ep.guest.name}</div>
           <div class="host-role">Special Guest</div>
           <div class="host-pts">∑ <b>${fmt(ep.guest.gTotal)}</b> · ⌀ <b>${gAvg}</b></div>
+          <div class="host-socials">
+            <a href="https://www.twitch.tv/${ep.guest.twitch}" class="hs-btn hs-tw" target="_blank" title="Twitch"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg></a>
+            ${ep.guest.tiktok ? `<a href="https://www.tiktok.com/@${ep.guest.tiktok}" class="hs-btn hs-tt" target="_blank" title="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.75a8.25 8.25 0 004.83 1.56V6.86a4.85 4.85 0 01-1.06-.17z"/></svg></a>` : ''}
+            ${ep.guest.ig ? `<a href="https://www.instagram.com/${ep.guest.ig}" class="hs-btn hs-ig" target="_blank" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98C.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>` : ''}
+          </div>
         </div>
       </div>
       <div class="ep-total">
