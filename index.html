@@ -125,10 +125,10 @@ tbody td{padding:11px 14px;vertical-align:middle}
 .diff-zero{background:rgba(255,255,255,.07);color:var(--tm)}
 .no-data{text-align:center;padding:40px;color:var(--tm);font-size:14px}
 .song-name{font-size:11px;color:var(--tm);margin-top:2px;font-weight:400}
-.yt-btn{display:inline-flex;align-items:center;gap:4px;background:#ff0000;color:#fff;
-  font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;text-decoration:none;
-  transition:opacity .2s;white-space:nowrap;line-height:1.6;flex-shrink:0}
-.yt-btn:hover{opacity:.8}
+.yt-btn{display:inline-flex;align-items:center;gap:4px;background:transparent;color:var(--tm);
+  font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;text-decoration:none;border:1px solid var(--bd2);
+  transition:all .2s;white-space:nowrap;line-height:1.6;flex-shrink:0}
+.yt-btn:hover{color:#fff;border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.06)}
 .has-note{cursor:pointer;text-decoration:underline dotted 1px var(--tm);text-underline-offset:3px;transition:color .2s}
 .has-note:hover{color:var(--pk)}
 #note-pop{position:fixed;z-index:999;background:var(--sur2);border:1px solid var(--bd2);
@@ -403,7 +403,7 @@ function buildGestamtRows(data){
         ? `<span class="diff-chip diff-pos">+${fmt(diff)}</span>`
         : `<span class="diff-chip diff-neg">${fmt(diff).replace('-','–')}</span>`;
     const ytBtn = (e.yt && e.t !== null)
-      ? `<a class="yt-btn" href="https://www.youtube.com/watch?v=${e.yt}&t=${e.t}" target="_blank">▶ YT</a>` : '';
+      ? `<a class="yt-btn" href="https://www.youtube.com/watch?v=${e.yt}&t=${e.t}" target="_blank">▶ Zur Reaction</a>` : '';
     return `<tr>
       <td>${rankIcon(i)}</td>
       <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
@@ -423,7 +423,7 @@ function buildEpRows(ep, sortKey){
   const d = sortData(ep.entries.map(e => ({...e, sum: e.s+e.g})), col, dir);
   return d.map((e, i) => {
     const ytBtn = (ep.yt && e.t !== null)
-      ? `<a class="yt-btn" href="https://www.youtube.com/watch?v=${ep.yt}&t=${e.t}" target="_blank">▶ YT</a>` : '';
+      ? `<a class="yt-btn" href="https://www.youtube.com/watch?v=${ep.yt}&t=${e.t}" target="_blank">▶ Zur Reaction</a>` : '';
     return `<tr>
     <td>${rankIcon(i)}</td>
     <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
