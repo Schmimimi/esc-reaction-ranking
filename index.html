@@ -187,6 +187,8 @@ tbody td{padding:11px 14px;vertical-align:middle}
 .s-tiktok{background:#111;color:#fff;border:1px solid rgba(255,255,255,.1)}.s-tiktok:hover{background:#222}
 .s-ig{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}.s-ig:hover{opacity:.85}
 .s-discord{background:#5865f2;color:#fff;padding:11px 24px;font-size:15px;box-shadow:0 0 18px rgba(88,101,242,.5)}.s-discord:hover{background:#4752c4;box-shadow:0 0 26px rgba(88,101,242,.7)}.s-discord svg{width:20px;height:20px}
+.nq-badge{font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);letter-spacing:.5px;flex-shrink:0}
+.fbtn-finale{border-color:rgba(255,200,0,.3);color:rgba(255,200,0,.7)}.fbtn-finale:hover{border-color:rgba(255,200,0,.6);color:#ffd700}.fbtn-finale.on{background:rgba(255,200,0,.15);border-color:#ffd700;color:#ffd700}
 .th-inner{display:inline-flex;align-items:center;gap:5px}
 .th-av{width:18px;height:18px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .host-socials{display:flex;gap:6px;justify-content:center;margin-top:8px}
@@ -335,6 +337,13 @@ const ALL = EPS.flatMap(ep => ep.entries.map(e => ({
   guestName: ep.guest.name, guestTwitch: ep.guest.twitch,
 })));
 
+const FINALISTS = new Set([
+  'Moldova','Greece','Cyprus','Norway','Lithuania','Ukraine',
+  'Denmark','United_Kingdom','Croatia','France','Sweden','Austria',
+  'Albania','Belgium','Poland','Romania','Australia','Bulgaria',
+  'Italy','Serbia','Finland','Malta','Czechia','Germany',
+]);
+
 // ── HELPERS ──────────────────────────────────────────────────────────────
 const flagUrl = en =>
   `https://commons.wikimedia.org/wiki/Special:FilePath/Eurovision_2026_white_heart_-_${en}.svg`;
@@ -381,6 +390,7 @@ const sorts = {
 };
 let gesamtFilter = 0;
 let gesamtSearch = '';
+let gesamtFinaleOnly = false;
 
 // ── TABLE BUILDER ─────────────────────────────────────────────────────────
 function sortData(data, col, dir){
@@ -396,6 +406,7 @@ function buildGestamtRows(data){
   const {col, dir} = sorts.gesamt;
   let d = [...data];
   if(gesamtFilter > 0) d = d.filter(e => e.ep === gesamtFilter);
+  if(gesamtFinaleOnly) d = d.filter(e => FINALISTS.has(e.en));
   if(gesamtSearch) d = d.filter(e => e.de.toLowerCase().includes(gesamtSearch.toLowerCase()));
   d = sortData(d, col, dir);
   return d.map((e, i) => {
@@ -409,7 +420,7 @@ function buildGestamtRows(data){
       ? `<a class="yt-btn" href="https://www.youtube.com/watch?v=${e.yt}&t=${e.t}" target="_blank">▶ Zur Reaction</a>` : '';
     return `<tr>
       <td>${rankIcon(i)}</td>
-      <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
+      <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${FINALISTS.has(e.en)?'':'<span class="nq-badge">NQ</span>'}${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
       <td><div class="sc"><img class="sc-av" src="${avatarUrl(SCHMILLEY.twitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.s)}</span>
         <div class="bar-w"><div class="bar-f" style="width:${pct(e.s,10)}%"></div></div></div></td>
       <td><div class="sc"><img class="sc-av" src="${avatarUrl(e.guestTwitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.g)}</span>
@@ -429,7 +440,7 @@ function buildEpRows(ep, sortKey){
       ? `<a class="yt-btn" href="https://www.youtube.com/watch?v=${ep.yt}&t=${e.t}" target="_blank">▶ Zur Reaction</a>` : '';
     return `<tr>
     <td>${rankIcon(i)}</td>
-    <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
+    <td><div class="cc">${flagImg(e.en)}<div><div style="display:flex;align-items:center;gap:7px"><span class="cname">${e.de}</span>${FINALISTS.has(e.en)?'':'<span class="nq-badge">NQ</span>'}${ytBtn}</div>${e.note?`<div class="song-name has-note" data-note="${e.note}" onclick="showNoteEl(event,this)">⚠ Kein offizieller Teilnehmer</div>`:''}${e.song?`<div class="song-name">${e.song}</div>`:''}</div></div></td>
     <td><div class="sc"><img class="sc-av" src="${avatarUrl(SCHMILLEY.twitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.s)}</span>
       <div class="bar-w"><div class="bar-f" style="width:${pct(e.s,10)}%"></div></div></div></td>
     <td><div class="sc"><img class="sc-av" src="${avatarUrl(ep.guest.twitch)}" onerror="this.style.display='none'"><span class="sc-val">${fmt(e.g)}</span>
@@ -486,6 +497,7 @@ function renderGesamt(){
       <span class="filter-lbl">Folge:</span>
       <button class="fbtn on" onclick="setGFilter(0)">Alle</button>
       ${EPS.map(ep => `<button class="fbtn" onclick="setGFilter(${ep.id})">F${ep.id} · ${ep.guest.name}</button>`).join('')}
+      <button class="fbtn fbtn-finale" id="btn-finale" onclick="setGFinale()">🏆 Nur Finale</button>
       <div class="search-wrap">
         <input class="search" placeholder="🔍 Land suchen…" oninput="setGSearch(this.value)">
       </div>
@@ -508,7 +520,16 @@ function renderGesamt(){
 
 function setGFilter(ep){
   gesamtFilter = ep;
+  gesamtFinaleOnly = false;
   document.querySelectorAll('#tab-gesamt .fbtn').forEach((b,i) => b.classList.toggle('on', i === ep));
+  document.getElementById('btn-finale').classList.remove('on');
+  rerenderGesamt();
+}
+
+function setGFinale(){
+  gesamtFinaleOnly = !gesamtFinaleOnly;
+  if(gesamtFinaleOnly){ gesamtFilter = 0; document.querySelectorAll('#tab-gesamt .fbtn').forEach((b,i) => b.classList.toggle('on', i === 0)); }
+  document.getElementById('btn-finale').classList.toggle('on', gesamtFinaleOnly);
   rerenderGesamt();
 }
 
@@ -658,7 +679,7 @@ function renderStats(){
     <div class="disagree-row">
       ${flagImg(e.en)}
       <div class="disagree-info">
-        <div class="disagree-country">${e.de}</div>
+        <div class="disagree-country">${e.de}${FINALISTS.has(e.en)?'':'<span class="nq-badge">NQ</span>'}</div>
         <div class="disagree-sub">Schmilley ${fmt(e.s)} · ${e.guestName} ${fmt(e.g)} · F${e.ep}</div>
       </div>
       <div class="disagree-diff">Δ ${fmt(e.diff).replace('.',',')}</div>
@@ -676,7 +697,7 @@ function renderStats(){
   const tensGrid = tens.map(t => `
     <div class="ten-item">
       ${flagImg(t.en,'ten-flag')}
-      <div class="ten-cname">${t.de}</div>
+      <div class="ten-cname">${t.de}${FINALISTS.has(t.en)?'':'<span class="nq-badge">NQ</span>'}</div>
       <div class="ten-score">10</div>
       <div class="ten-who">${t.who}</div>
     </div>`).join('');
@@ -701,7 +722,7 @@ function renderStats(){
     return `<div class="pick-item">
       ${flagImg(top.en,'pick-flag')}
       <div class="pick-info">
-        <div class="pick-cname">${top.de}</div>
+        <div class="pick-cname">${top.de}${FINALISTS.has(top.en)?'':'<span class="nq-badge">NQ</span>'}</div>
         <div class="pick-ep">${ep.guest.name} · F${ep.id}</div>
       </div>
       <div class="pick-score" style="color:var(--gd)">${fmt(top.g)}</div>
